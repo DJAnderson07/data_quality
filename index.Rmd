@@ -1,0 +1,352 @@
+---
+title       : Data Quality and Data Types
+subtitle    : Data based decision making course
+author      : Daniel Anderson
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : zenburn      # 
+widgets     : []            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+--- 
+<style>
+em {
+  font-style: italic
+}
+</style>
+
+<style>
+strong {
+  font-weight: bold;
+}
+</style>
+
+```{r setup, include = FALSE}
+library(knitr)
+opts_knit$set(root.dir = "/Users/Daniel/Dropbox/Teaching/ev_base_DM/lectures/intro_data/")
+opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+```
+
+## ... Where were we? 
+
+* Data types and distributions
+* Outcome versus predictor variables
+* Observational versus experimental data
+
+
+----
+## Remember
+
+* Get R installed: https://cran.r-project.org
+* Get RStudio installed: https://www.rstudio.com/products/rstudio/download/
+
+**NOTE:** If you need help with either of the above, please contact me. I'd like everybody to be ready to go **before** we need to use it. Best to get it installed now and make sure it's working so we can troubleshoot if not.
+
+----
+## First off..
+
+Just because data exist, doesn't mean they are meaningful
+
+```{r plot_no_bar, echo = FALSE, message = FALSE, warning = FALSE, fig.height = 7, fig.width = 13}
+
+library(tidyverse)
+library(haven)
+theme_set(theme_bw())
+
+d <- read_spss("/Users/Daniel/CTL/manuscripts/ROOTS/C1_RTS_Checkpoints_Clean.sav")
+
+td <- d %>% 
+	dplyr::select(-48:-55) %>% 
+	gather(var, score, -1:-3) %>% 
+	separate(var, c("checkpoint", "measure"), "_") %>% 
+	mutate(checkpoint = parse_number(checkpoint),
+		   pts_poss = parse_number(measure),
+		   measure = stringr::str_extract(measure, "[a-zA-Z]+")) %>% 
+	spread(measure, score)
+
+pp <- td %>% 
+	filter(!is.na(T)) %>% 
+	group_by(checkpoint) %>% 
+	distinct(pts_poss)
+
+ggplot(td, aes(checkpoint, T)) +
+	#geom_bar(data = pp, aes(checkpoint, pts_poss), 
+	#	stat = "identity") +
+	geom_jitter(color = "blue", height = 0) +
+	geom_smooth(method = "loess", span = 0.5) +
+	geom_smooth(method = "lm", color = "red") 
+```
+
+----
+```{r plot_bar, echo = FALSE, message = FALSE, warning = FALSE, fig.height = 8, fig.width = 13}
+ggplot(td, aes(checkpoint, T)) +
+	geom_bar(data = pp, aes(checkpoint, pts_poss), 
+		stat = "identity") +
+	geom_jitter(color = "blue", height = 0) +
+	geom_smooth(method = "loess", span = 0.5) +
+	geom_smooth(method = "lm", color = "red")
+```
+
+----
+## Another example
+
+```{r sim_data, echo = FALSE, message = FALSE, warning = FALSE}
+library(MASS)
+set.seed(100)
+sigma <- matrix(c(10, 1,
+				  1, 10), byrow = TRUE, ncol = 2)
+sim <- Map(mvrnorm, n = list(25, 25, 25), 
+		mu = list(c(5, 10), c(15, 20), c(25, 30)),
+		Sigma = list(sigma, sigma, sigma))
+sim <- lapply(sim, function(x) {
+	x <- as.data.frame(x)
+	names(x) <- c("x", "y")
+	return(x)
+})
+full_sim <- do.call("rbind", sim)
+full_sim$group <- as.factor(rep(1:3, each = 25))
+```
+
+```{r plot1, echo = FALSE, message = FALSE, warning = FALSE, fig.height = 8, fig.width = 13}
+ggplot(full_sim, aes(x, y)) + 
+	xlim(0, 35) +
+	ylim(0, 35) +
+	geom_point() +
+	geom_smooth(se = FALSE, method = "lm") +
+	annotate("text", 25, 10, 
+		label = round(cor(full_sim$x, full_sim$y), 2), 
+		cex = 10) 
+```
+
+----
+## "Stacked" groups
+
+```{r plot2, echo = FALSE, message = FALSE, warning = FALSE, fig.height = 8, fig.width = 13}
+gg_color_hue <- function(n) {
+  hues = seq(15, 375, length = n + 1)
+  hcl(h = hues, l = 65, c = 100)[1:n]
+}
+cols <- gg_color_hue(3)
+
+ggplot(full_sim, aes(x, y, color = group)) + 
+	geom_point() +
+	xlim(0, 35) +
+	ylim(0, 35) +
+	geom_smooth(aes(group = group), se = FALSE, method = "lm") +
+	annotate("text", 15, 5, 
+		label = round(cor(sim[[1]])[1, 2], 2), 
+		color = cols[1], 
+		cex = 10) +
+	annotate("text", 20, 15, 
+		label = round(cor(sim[[2]])[1, 2], 2), 
+		color = cols[2], 
+		cex = 10) +
+	annotate("text", 30, 25, 
+		label = round(cor(sim[[3]])[1, 2], 2), 
+		color = cols[3], 
+		cex = 10) +
+	theme(legend.position = "none")
+```
+
+----
+## Take home message
+Know your data, understand where they came from, and the questions they can and cannot address.
+
+---- .segue
+# Data types and distributions
+
+---
+## Data types
+Two basic types of data: Categorical and Numerical
+>* Categorical: Variable can only take on discrete values
+	* Two types of categorical variables
+		+ Ordered (ordinal)
+			- small, medium, large
+			- strongly disagree, diagree, agree, strongly agree
+		+ Nominal
+			- red, green, yellow, blue, purple
+			- Teacher 1, Teacher 2, ..., Teacher *n*
+>* Quantitative or Continuous: Variable can take on any real number
+	* Technically quantitative/continuous variables have either *interval* or *ratio* properties, but we won't worry about that too much.
+
+----
+## Discussion
+Talk with a neighbor. Identify what types of data each of the following are. Distinguish between ordinal and nominal categorical data.
+
+* State test scores
+* State test performance level classifications
+* Number of office referrals
+* Disability status
+* Grades
+* Grade point average
+* Course placement
+* Free and reduced price lunch eligibility
+
+----
+## Thinking deeper about data
+* Imagine data from state test scores for all students in a school
+* Now image data from the number of office discipline referrals for every student in the school.
+
+<br>
+Discuss with your neighbor - how would these data look different? How would they be similar?
+
+----- &twocol
+## Data distributions
+
+*** =left
+
+# Normally distributed data
+```{r norm_dist, echo = FALSE}
+plot(dnorm(seq(-4, 4, .1)), type = "l")
+```
+
+*** =right
+# Count distributions (Poisson)
+
+```{r r_poiss, echo = FALSE}
+plot(dpois(0:20, 1), type = "h")
+```
+
+----
+## Why does this matter?
+>* Whether you realize it or not, you're always making assumptions about your data.
+>* The distribution corresponds to the probability that a particular value will occur.
+>* If you make incorrect assumptions about your data, you're likely to arrive upon incorrect conclusions.
+
+---
+## What about categorical data?
+* Generally, data with two categories (head/tails) are assumed to follow the *binomial* distribution. 
+* Probability of an event does not have to be 0.5
+
+<br> 
+
+## More than two categories?
+* Multinomial distribution
+* Similar to the binomial but with more categories, and each category has an assigned probability. 
+
+----
+## Binomial Distribution
+
+Let's play!
+
+http://shiny.albany.edu/stat/binomial/
+
+
+----
+## General recommendations
+* Don't categorize continuous data (throwing away information).
+* Look at your data first! 
+* Consider all possible observations for the variable. Were all observed?
+* Make sure you understand your data before you start to make decisions or form conclusions from it.
+
+---- .segue
+# Predictors versus outcomes
+
+----
+## Outcome variable
+* Also called the **dependent variable (DV)**. 
+* The thing you're interested in. 
+* What do you want to predict? Improve? Change?
+
+<br>
+
+**Examples:** State test scores, office referrals, peer-to-peer interactions, use of evidence-based practices, etc.
+
+----
+## Predictor variable
+* Also called the **independent variable (IV)**.
+* The DV is expected to change as a function of the IV(s).
+* In experimental designs, the IV is manipulated (receive/do not receive treatment).
+
+<br>
+
+**Examples:** Treatment status, ELL-status, Disability status, etc.
+
+----
+## Predictors versus control variables
+* Sometimes you want to include variables that are not directly related to your research question, so you can **control** (statistically) for their impact.
+* Statistical controls are never as strong as design controls (and don't let anyone try to convince you otherwise).
+
+<br>
+
+**Examples:** Gender, race/ethnicity, FRL-status, Prior achievement, etc.
+
+----
+## Sometimes it gets fuzzy
+* What is the relationship between reading and math state test scores?
+
+<br> 
+
+Try to be clear when you're communicating with others. If the question solely focuses on relationships, that's fine, but otherwise try to be more clear.
+
+>* How do reading scores predict math scores?
+
+----
+## Discussion
+* Can the same variable be both a predictor and outcome variable in **different** studies?
+* Can the same variable be both a predictor and outcome variable in **the same** study?
+* Can the same variable be both an independent variable and a control variable in the same study?
+
+----
+## Challenge
+
+For each question below, identify the IV and the DV, and describe each variable as nominal, ordinal, or continuous.
+
+1. To what extent does students' Grade 3 state test score in reading predict whether the student will graduate from high school?
+2. How do students differ in math state test score gains from Grades 3 to 4, based on the classroom they were enrolled in at Grade 3? 
+3. How do students' scores on a fall fluency measure predict their state test score in the spring?
+4. To what extent does free and reduced price lunch eligibility status predict enrollment in special education? 
+
+
+-----
+## Thinking about questions
+Brainstorm with your neighbor: Come up with an example research question for each of the following scenarios. 
+
+<br>
+
+* Categorical predictor, categorical outcome
+* Categorical predictor, continuous outcome
+* Continuous predictor, categorical outcome
+* Continuous predictor, continuous outcome
+
+---- .segue
+# Observational versus experimental data
+
+----
+## Most data are non-experimental
+* Experimental data are collected within a specific research design.
+* Experimental data include:
+	+ Manipulation of the IV
+	+ Random assignment to treatment
+* All other data are non-experimental
+
+Besides the above characteristics, what distinguishes experimental data from non-experimental data? 
+
+<br>
+Are experimental data more or less important than non-experimental data?
+
+----
+## Experimental versus non-experimental data
+* Experimental data are collected to try to determine the *casual* effect of a treatment.
+* Non-experimental data are essentially always threatened by the omitted variable bias (causal attribution tenuous at best)
+
+----
+## Spurious correlations
+
+http://www.tylervigen.com/spurious-correlations
+
+>* Note, these all have dual axes, which is a really bad ideal (see http://stackoverflow.com/questions/3099219/plot-with-2-y-axes-one-y-axis-on-the-left-and-another-y-axis-on-the-right)
+
+>* Well-implemented experiments eliminate the possibility of spurious correlations
+
+
+----
+## What we still didn't get to...
+* Samples and populations (and sampling methods)
+
+
+---- 
+## Next time
+# Data visualization dos and don'ts
+
+

@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Data Quality and Data Types</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Data Quality and Data Types">
+  <meta name="author" content="Daniel Anderson">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/zenburn.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>Data Quality and Data Types</h1>
+    <h2>Data based decision making course</h2>
+    <p>Daniel Anderson<br/></p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <article data-timings="">
+    <style>
+em {
+  font-style: italic
+}
+</style>
+
+<style>
+strong {
+  font-weight: bold;
+}
+</style>
+
+<h2>... Where were we?</h2>
+
+<ul>
+<li>Data types and distributions</li>
+<li>Outcome versus predictor variables</li>
+<li>Observational versus experimental data</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-2" style="background:;">
+  <hgroup>
+    <h2>Remember</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Get R installed: <a href="https://cran.r-project.org">https://cran.r-project.org</a></li>
+<li>Get RStudio installed: <a href="https://www.rstudio.com/products/rstudio/download/">https://www.rstudio.com/products/rstudio/download/</a></li>
+</ul>
+
+<p><strong>NOTE:</strong> If you need help with either of the above, please contact me. I&#39;d like everybody to be ready to go <strong>before</strong> we need to use it. Best to get it installed now and make sure it&#39;s working so we can troubleshoot if not.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>First off..</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Just because data exist, doesn&#39;t mean they are meaningful</p>
+
+<p><img src="assets/fig/plot_no_bar-1.png" alt="plot of chunk plot_no_bar"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <article data-timings="">
+    <p><img src="assets/fig/plot_bar-1.png" alt="plot of chunk plot_bar"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-5" style="background:;">
+  <hgroup>
+    <h2>Another example</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="assets/fig/plot1-1.png" alt="plot of chunk plot1"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-6" style="background:;">
+  <hgroup>
+    <h2>&quot;Stacked&quot; groups</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="assets/fig/plot2-1.png" alt="plot of chunk plot2"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-7" style="background:;">
+  <hgroup>
+    <h2>Take home message</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Know your data, understand where they came from, and the questions they can and cannot address.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="segue" id="slide-8" style="background:;">
+  <hgroup>
+    <h1>Data types and distributions</h1>
+  </hgroup>
+  <article data-timings="">
+    
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-9" style="background:;">
+  <hgroup>
+    <h2>Data types</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Two basic types of data: Categorical and Numerical</p>
+
+<ul class = "build incremental">
+<li>Categorical: Variable can only take on discrete values
+
+<ul>
+<li>Two types of categorical variables
+
+<ul>
+<li>Ordered (ordinal)
+
+<ul>
+<li>small, medium, large</li>
+<li>strongly disagree, diagree, agree, strongly agree</li>
+</ul></li>
+<li>Nominal
+
+<ul>
+<li>red, green, yellow, blue, purple</li>
+<li>Teacher 1, Teacher 2, ..., Teacher <em>n</em></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li>Quantitative or Continuous: Variable can take on any real number
+
+<ul>
+<li>Technically quantitative/continuous variables have either <em>interval</em> or <em>ratio</em> properties, but we won&#39;t worry about that too much.</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-10" style="background:;">
+  <hgroup>
+    <h2>Discussion</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Talk with a neighbor. Identify what types of data each of the following are. Distinguish between ordinal and nominal categorical data.</p>
+
+<ul>
+<li>State test scores</li>
+<li>State test performance level classifications</li>
+<li>Number of office referrals</li>
+<li>Disability status</li>
+<li>Grades</li>
+<li>Grade point average</li>
+<li>Course placement</li>
+<li>Free and reduced price lunch eligibility</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-11" style="background:;">
+  <hgroup>
+    <h2>Thinking deeper about data</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Imagine data from state test scores for all students in a school</li>
+<li>Now image data from the number of office discipline referrals for every student in the school.</li>
+</ul>
+
+<p><br>
+Discuss with your neighbor - how would these data look different? How would they be similar?</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-12" style="background:;">
+  <hgroup>
+    <h2>Data distributions</h2>
+  </hgroup>
+  <article data-timings="">
+    
+<div style='float:left;width:48%;'>
+  <h1>Normally distributed data</h1>
+
+<p><img src="assets/fig/norm_dist-1.png" alt="plot of chunk norm_dist"></p>
+
+</div>
+<div style='float:right;width:48%;'>
+  <h1>Count distributions (Poisson)</h1>
+
+<p><img src="assets/fig/r_poiss-1.png" alt="plot of chunk r_poiss"></p>
+
+</div>
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-13" style="background:;">
+  <hgroup>
+    <h2>Why does this matter?</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul class = "build incremental">
+<li>Whether you realize it or not, you&#39;re always making assumptions about your data.</li>
+<li>The distribution corresponds to the probability that a particular value will occur.</li>
+<li>If you make incorrect assumptions about your data, you&#39;re likely to arrive upon incorrect conclusions.</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-14" style="background:;">
+  <hgroup>
+    <h2>What about categorical data?</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Generally, data with two categories (head/tails) are assumed to follow the <em>binomial</em> distribution. </li>
+<li>Probability of an event does not have to be 0.5</li>
+</ul>
+
+<p><br> </p>
+
+<h2>More than two categories?</h2>
+
+<ul>
+<li>Multinomial distribution</li>
+<li>Similar to the binomial but with more categories, and each category has an assigned probability. </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-15" style="background:;">
+  <hgroup>
+    <h2>Binomial Distribution</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Let&#39;s play!</p>
+
+<p><a href="http://shiny.albany.edu/stat/binomial/">http://shiny.albany.edu/stat/binomial/</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-16" style="background:;">
+  <hgroup>
+    <h2>General recommendations</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Don&#39;t categorize continuous data (throwing away information).</li>
+<li>Look at your data first! </li>
+<li>Consider all possible observations for the variable. Were all observed?</li>
+<li>Make sure you understand your data before you start to make decisions or form conclusions from it.</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="segue" id="slide-17" style="background:;">
+  <hgroup>
+    <h1>Predictors versus outcomes</h1>
+  </hgroup>
+  <article data-timings="">
+    
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-18" style="background:;">
+  <hgroup>
+    <h2>Outcome variable</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Also called the <strong>dependent variable (DV)</strong>. </li>
+<li>The thing you&#39;re interested in. </li>
+<li>What do you want to predict? Improve? Change?</li>
+</ul>
+
+<p><br></p>
+
+<p><strong>Examples:</strong> State test scores, office referrals, peer-to-peer interactions, use of evidence-based practices, etc.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-19" style="background:;">
+  <hgroup>
+    <h2>Predictor variable</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Also called the <strong>independent variable (IV)</strong>.</li>
+<li>The DV is expected to change as a function of the IV(s).</li>
+<li>In experimental designs, the IV is manipulated (receive/do not receive treatment).</li>
+</ul>
+
+<p><br></p>
+
+<p><strong>Examples:</strong> Treatment status, ELL-status, Disability status, etc.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-20" style="background:;">
+  <hgroup>
+    <h2>Predictors versus control variables</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Sometimes you want to include variables that are not directly related to your research question, so you can <strong>control</strong> (statistically) for their impact.</li>
+<li>Statistical controls are never as strong as design controls (and don&#39;t let anyone try to convince you otherwise).</li>
+</ul>
+
+<p><br></p>
+
+<p><strong>Examples:</strong> Gender, race/ethnicity, FRL-status, Prior achievement, etc.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-21" style="background:;">
+  <hgroup>
+    <h2>Sometimes it gets fuzzy</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>What is the relationship between reading and math state test scores?</li>
+</ul>
+
+<p><br> </p>
+
+<p>Try to be clear when you&#39;re communicating with others. If the question solely focuses on relationships, that&#39;s fine, but otherwise try to be more clear.</p>
+
+<ul class = "build incremental">
+<li>How do reading scores predict math scores?</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-22" style="background:;">
+  <hgroup>
+    <h2>Discussion</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Can the same variable be both a predictor and outcome variable in <strong>different</strong> studies?</li>
+<li>Can the same variable be both a predictor and outcome variable in <strong>the same</strong> study?</li>
+<li>Can the same variable be both an independent variable and a control variable in the same study?</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-23" style="background:;">
+  <hgroup>
+    <h2>Challenge</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>For each question below, identify the IV and the DV, and describe each variable as nominal, ordinal, or continuous.</p>
+
+<ol>
+<li>To what extent does students&#39; Grade 3 state test score in reading predict whether the student will graduate from high school?</li>
+<li>How do students differ in math state test score gains from Grades 3 to 4, based on the classroom they were enrolled in at Grade 3? </li>
+<li>How do students&#39; scores on a fall fluency measure predict their state test score in the spring?</li>
+<li>To what extent does free and reduced price lunch eligibility status predict enrollment in special education? </li>
+</ol>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-24" style="background:;">
+  <hgroup>
+    <h2>Thinking about questions</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Brainstorm with your neighbor: Come up with an example research question for each of the following scenarios. </p>
+
+<p><br></p>
+
+<ul>
+<li>Categorical predictor, categorical outcome</li>
+<li>Categorical predictor, continuous outcome</li>
+<li>Continuous predictor, categorical outcome</li>
+<li>Continuous predictor, continuous outcome</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="segue" id="slide-25" style="background:;">
+  <hgroup>
+    <h1>Observational versus experimental data</h1>
+  </hgroup>
+  <article data-timings="">
+    
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-26" style="background:;">
+  <hgroup>
+    <h2>Most data are non-experimental</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Experimental data are collected within a specific research design.</li>
+<li>Experimental data include:
+
+<ul>
+<li>Manipulation of the IV</li>
+<li>Random assignment to treatment</li>
+</ul></li>
+<li>All other data are non-experimental</li>
+</ul>
+
+<p>Besides the above characteristics, what distinguishes experimental data from non-experimental data? </p>
+
+<p><br>
+Are experimental data more or less important than non-experimental data?</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-27" style="background:;">
+  <hgroup>
+    <h2>Experimental versus non-experimental data</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Experimental data are collected to try to determine the <em>casual</em> effect of a treatment.</li>
+<li>Non-experimental data are essentially always threatened by the omitted variable bias (causal attribution tenuous at best)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-28" style="background:;">
+  <hgroup>
+    <h2>Spurious correlations</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><a href="http://www.tylervigen.com/spurious-correlations">http://www.tylervigen.com/spurious-correlations</a></p>
+
+<ul class = "build incremental">
+<li><p>Note, these all have dual axes, which is a really bad ideal (see <a href="http://stackoverflow.com/questions/3099219/plot-with-2-y-axes-one-y-axis-on-the-left-and-another-y-axis-on-the-right">http://stackoverflow.com/questions/3099219/plot-with-2-y-axes-one-y-axis-on-the-left-and-another-y-axis-on-the-right</a>)</p></li>
+<li><p>Well-implemented experiments eliminate the possibility of spurious correlations</p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-29" style="background:;">
+  <hgroup>
+    <h2>What we still didn&#39;t get to...</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Samples and populations (and sampling methods)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-30" style="background:;">
+  <hgroup>
+    <h2>Next time</h2>
+  </hgroup>
+  <article data-timings="">
+    <h1>Data visualization dos and don&#39;ts</h1>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='NA'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='Remember'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='First off..'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='NA'>
+         4
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=5 title='Another example'>
+         5
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=6 title='&quot;Stacked&quot; groups'>
+         6
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=7 title='Take home message'>
+         7
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=8 title='Data types and distributions'>
+         8
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=9 title='Data types'>
+         9
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=10 title='Discussion'>
+         10
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=11 title='Thinking deeper about data'>
+         11
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=12 title='Data distributions'>
+         12
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=13 title='Why does this matter?'>
+         13
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=14 title='What about categorical data?'>
+         14
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=15 title='Binomial Distribution'>
+         15
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=16 title='General recommendations'>
+         16
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=17 title='Predictors versus outcomes'>
+         17
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=18 title='Outcome variable'>
+         18
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=19 title='Predictor variable'>
+         19
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=20 title='Predictors versus control variables'>
+         20
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=21 title='Sometimes it gets fuzzy'>
+         21
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=22 title='Discussion'>
+         22
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=23 title='Challenge'>
+         23
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=24 title='Thinking about questions'>
+         24
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=25 title='Observational versus experimental data'>
+         25
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=26 title='Most data are non-experimental'>
+         26
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=27 title='Experimental versus non-experimental data'>
+         27
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=28 title='Spurious correlations'>
+         28
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=29 title='What we still didn&#39;t get to...'>
+         29
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=30 title='Next time'>
+         30
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
